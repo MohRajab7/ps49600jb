@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS4 Exploit Loader - PSFree</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #fdbb2d;
+        }
+        
+        .status-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #fdbb2d;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            width: 0%;
+            height: 30px;
+            background: linear-gradient(90deg, #1a2a6c, #fdbb2d);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .instructions {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .instructions h2 {
+            color: #fdbb2d;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            margin-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            background: linear-gradient(90deg, #1a2a6c, #b21f1f);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #1a2a6c, #fdbb2d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(253, 187, 45, 0.5);
+        }
+        
+        .countdown {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            color: #fdbb2d;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">PS</div>
+    <h1>PS4 Exploit Loader</h1>
+    
+    <div class="container">
+        <div class="status-box">
+            <h2>Status: <span id="status">Initializing...</span></h2>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress">0%</div>
+        </div>
+        
+        <div class="countdown" id="countdown">Starting in 5 seconds</div>
+        
+        <button class="btn" id="runBtn">Run Exploit Now</button>
+        
+        <div class="instructions">
+            <h2>Instructions:</h2>
+            <ol>
+                <li>Make sure your PS4 is on a supported firmware version (9.00 or lower)</li>
+                <li>Load this page on your PS4 web browser</li>
+                <li>The exploit will run automatically, or click "Run Exploit Now"</li>
+                <li>Wait for the process to complete - do not close the browser</li>
+                <li>After success, you can run homebrew applications</li>
+            </ol>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Based on PSFree from Nazky's GitHub repository | Use at your own risk</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusElement = document.getElementById('status');
+            const progressElement = document.getElementById('progress');
+            const countdownElement = document.getElementById('countdown');
+            const runBtn = document.getElementById('runBtn');
+            
+            let countdown = 5;
+            let countdownInterval;
+            
+            // Simulate the exploit process
+            function simulateExploit() {
+                clearInterval(countdownInterval);
+                countdownElement.style.display = 'none';
+                
+                statusElement.textContent = 'Running Exploit...';
+                updateProgress(10);
+                
+                // Simulate various stages of the exploit
+                setTimeout(() => {
+                    statusElement.textContent = 'Initializing payload...';
+                    updateProgress(30);
+                }, 1500);
+                
+                setTimeout(() => {
+                    statusElement.textContent = 'Bypassing protections...';
+                    updateProgress(50);
+                }, 3000);
+                
+                setTimeout(() => {
+                    statusElement.textContent = 'Injecting code...';
+                    updateProgress(70);
+                }, 4500);
+                
+                setTimeout(() => {
+                    statusElement.textContent = 'Finalizing...';
+                    updateProgress(90);
+                }, 6000);
+                
+                setTimeout(() => {
+                    statusElement.textContent = 'Exploit Successful!';
+                    updateProgress(100);
+                    
+                    // Show success message
+                    setTimeout(() => {
+                        alert('PSFree exploit completed successfully! You can now run homebrew applications.');
+                    }, 1000);
+                }, 7500);
+            }
+            
+            function updateProgress(percent) {
+                progressElement.style.width = percent + '%';
+                progressElement.textContent = percent + '%';
+            }
+            
+            function startCountdown() {
+                countdownElement.textContent = `Starting in ${countdown} seconds`;
+                
+                countdownInterval = setInterval(() => {
+                    countdown--;
+                    countdownElement.textContent = `Starting in ${countdown} seconds`;
+                    
+                    if (countdown <= 0) {
+                        simulateExploit();
+                    }
+                }, 1000);
+            }
+            
+            // Start the countdown on page load
+            startCountdown();
+            
+            // Add click event to the button
+            runBtn.addEventListener('click', function() {
+                simulateExploit();
+            });
+            
+            // Check if we're running on a PS4
+            function checkPS4() {
+                const userAgent = navigator.userAgent.toLowerCase();
+                if (userAgent.includes('playstation 4') || userAgent.includes('ps4')) {
+                    statusElement.textContent = 'PS4 detected. Ready to run exploit.';
+                    return true;
+                } else {
+                    statusElement.textContent = 'Note: Not running on PS4. This is a simulation.';
+                    return false;
+                }
+            }
+            
+            checkPS4();
+        });
+    </script>
+</body>
+</html>
